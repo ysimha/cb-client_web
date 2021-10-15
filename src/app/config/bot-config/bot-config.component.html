@@ -1,0 +1,56 @@
+<div class="cb-rect-title">
+    Bot Configuration
+</div>
+<div class="cb-rect-content">
+    <form (ngSubmit)="saveBotConfig()" [formGroup]="form">
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput placeholder="Configuration name" [formControl]="nameFormControl"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="nameFormControl.hasError('required')">
+                    Configuration name is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput placeholder="Default Amount" type="number" step="0.0001"
+                    [formControl]="defaultAmountlFormControl" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="defaultAmountlFormControl.hasError('amountlValidator')">
+                    Default BTC amount must be a number 0.0005 to 1.00
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput placeholder="Stop loss precent" type="number" step="0.01"
+                    [formControl]="stoplossFormControl" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="stoplossFormControl.hasError('amountlValidator')">
+                    Stop loss precent must be number 1 to 100
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group config-label">
+            <mat-slide-toggle [formControl]="costAverageFormControl"></mat-slide-toggle>
+            Cost Average
+        </div>
+
+        <div class="form-group config-label">
+            <mat-slide-toggle [formControl]="useSignalTargetsFormControl"></mat-slide-toggle>
+            Use Signal Targets
+        </div>
+
+        <div class="form-group config-label">
+            <mat-slide-toggle [formControl]="useSignalSLFormControl" placeholder="Stop loss precent"></mat-slide-toggle>
+            Use Signal Stop Loss
+        </div>
+
+        <button mat-raised-button color="primary" [disabled]="form.invalid || !form.dirty">Update</button>
+
+    </form>
+</div>

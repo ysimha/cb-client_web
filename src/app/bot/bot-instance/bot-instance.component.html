@@ -1,0 +1,174 @@
+<div>
+  <div class="cb-rect-title">
+    Active Bot Instance
+  </div>
+  <div class="cb-rect-content">
+    <div class="row" *ngIf="botInstanceObservable | async as botInstance else empty">
+      <div class="col-sm-5">
+        <div *ngIf="botInstance[0]; else noPosition">
+          <div>
+            <dl class="dl-horizontal" style="left: 0%">
+              <dt>Status</dt>
+              <dd>{{instanceStatus(botInstance[0])}}</dd>
+              <dt>Exchange</dt>
+              <dd>{{botInstance[0].exchangeAccount.exchange}}</dd>
+              <dt>Default Amount</dt>
+              <dd>฿ {{botInstance[0].defaultAmount}}</dd>
+              <dt>Default Stop Loss</dt>
+              <dd>% {{botInstance[0].defaultStoploss}}</dd>
+              <dt>Loop</dt>
+              <dd>{{botInstance[0].loop}}</dd>
+              <dt>Last Modified Date</dt>
+              <dd>{{botInstance[0].lastModifiedDate}}</dd>
+              <dt>Cost averaging</dt>
+              <dd>--</dd>
+              <!-- <dd>{{botInstance[0].state.costAverage}}</dd> -->
+              <dt>Last target trailing</dt>
+              <dd>--</dd>
+              <!-- <dd>{{botInstance[0].state.lastTargetTrailing}}</dd> -->
+            </dl>
+          </div>
+
+          <div *ngIf="botInstance[0].state; else noPosition">
+            <fieldset class="cb-thin-border">
+              <legend>Exchange Data</legend>
+              <div *ngIf="botInstance[0].state.position; let position">
+                <dl class="dl-horizontal" style="left: 0%">
+                  <dt>Average Buy price</dt>
+                  <dd style="color:orange">฿ {{calcAveEnter(position) | number:'1.2-8' }}</dd>
+                  <dt>Average Sell price</dt>
+                  <dd>฿ {{calcAveSold(position) | number:'1.2-8' }}</dd>
+                  <dt>Stop loss</dt>
+                  <dd style="color:rgb(187, 3, 3)">฿ {{position.stoploss | number:'1.2-8' }}</dd>
+                  <dt>Last bid</dt>
+                  <dd>฿ {{position.lastTicker.bid | number:'1.2-8' }}</dd>
+                  <dt>Last price</dt>
+                  <dd [style.color]="priceChange(position)">฿ {{position.lastTicker.last | number:'1.2-8' }}</dd>
+                  <dt>Last ask</dt>
+                  <dd>฿ {{position.lastTicker.ask | number:'1.2-8' }}</dd>
+                  <dt>Next target</dt>
+                  <dd style="color:rgb(101, 118, 214)">฿ {{nextTarget(position) | number:'1.2-8' }}</dd>
+                  <dt>Max price</dt>
+                  <dd>฿ {{position.priceMax | number:'1.2-8' }}</dd>
+                  <dt>Min price</dt>
+                  <dd>฿ {{position.priceMin | number:'1.2-8' }}</dd>
+                </dl>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <ng-template #noPosition>
+          <div class="cb-warn-message">Bot Instance standby. No open position</div>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-7">
+        <div *ngIf="botInstance[0].state; else noPosition">
+          <div>
+            <div>
+              <fieldset class="cb-thin-border">
+                <legend>Active Position</legend>
+                <div>
+                  <dl class="dl-horizontal" style="left: 0%">
+                    <dt>Symbol</dt>
+                    <dd>{{botInstance[0].state.symbol.symbol}}</dd>
+                    <dt>Current amount</dt>
+                    <dd>฿ {{botInstance[0].state.currentAmount}}</dd>
+                    <dt>Time enter</dt>
+                    <dd>{{botInstance[0].state.position.buyTrades[0].time | date:'medium'}}</dd>
+                  </dl>
+                </div>
+              </fieldset>
+            </div>
+
+            <div *ngIf="botInstance[0].state; else noPosition">
+              <fieldset class="cb-thin-border">
+                <legend>Open Sell Order</legend>
+                <div *ngIf="botInstance[0].state.openSellOrder; let openSellOrder">
+                  <dl class="dl-horizontal" style="left: 0%">
+                    <dt>Order Id</dt>
+                    <dd>{{openSellOrder.orderId}}</dd>
+                    <dt>Transact time</dt>
+                    <dd>{{openSellOrder.transactTime | date:'medium'}}</dd>
+                    <dt>Price</dt>
+                    <dd>฿ {{openSellOrder.price}}</dd>
+                    <dt>Quantity</dt>
+                    <dd>{{openSellOrder.origQty}}</dd>
+                    <dt>Total sell amount</dt>
+                    <dd>฿ {{openSellOrder.origQty * openSellOrder.price}}</dd>
+                    <dt>Status</dt>
+                    <dd>{{openSellOrder.status}}</dd>
+                    <dt>Time in force</dt>
+                    <dd>{{openSellOrder.timeInForce}}</dd>
+                    <dt>Order type</dt>
+                    <dd>{{openSellOrder.type}}</dd>
+                  </dl>
+                </div>
+              </fieldset>
+              <fieldset class="cb-thin-border">
+                  <legend>Exchange Data</legend>
+                  <table *ngIf="botInstance[0].state.position; let position">
+                      <colgroup>
+                        <col style="width:16%">
+                        <col style="width:17%">
+                        <col style="width:16%">
+                        <col style="width:17%">
+                        <col style="width:16%">
+                        <col style="width:18%">
+                      </colgroup>
+                    <tbody>
+                      <tr>
+                        <td>Current profit %</td>
+                        <td>
+                            <span  [style.color]="calcPercent(position) 	&lt; 0 ? 'red' : 'green'">
+                                {{calcPercent(position) | number:'.2-2'}}
+                            </span> 
+                        </td>
+                        <td>Current profit ฿</td>
+                        <td><span  [style.color]="positionValue(position) 	&lt; 0 ? 'red' : 'green'">
+                          {{positionValue(position) | number:'1.2-8' }}</span>
+                        </td>
+                        <td><button class="cb-button" >Sell position</button></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                          <td>Amount bought ฿</td>
+                          <td>{{calcTotalInvested(position) | number:'1.2-8'}}</td>
+                          <td>Amount sold ฿</td>
+                          <td>{{totalSold(position) | number:'1.2-8'}}</td>
+                          <td>a</td>
+                          <td>a</td>
+                        </tr>
+                      <tr>
+                          <td>Quantity bought</td>
+                          <td>{{quantityBought(position)}}</td>
+                          <td>Quantity sold</td>
+                          <td>{{quantitySold(position)}}</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                            <td>Trades bought</td>
+                            <td>{{position.buyTrades.length}}</td>
+                            <td>Trades sold</td>
+                            <td>{{position.sellTrades.length}}</td>
+                            <td>a</td>
+                            <td>a</td>
+                          </tr>
+
+                    </tbody>
+                  </table>
+
+    
+                </fieldset>
+              
+            </div>
+          </div>
+
+          <ng-template #noPosition2>
+            <div class="cb-warn-message">2 Instance standby. No open position</div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>

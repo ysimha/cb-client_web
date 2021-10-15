@@ -1,0 +1,83 @@
+<div *ngIf="exchangeAccount; else noAccount">
+    <div id="totals" class="cb-rect-title">
+        <span>Balances</span>
+        <div>
+            <span style="align-content: flex-end">Estimated Value： &#3647;{{totalBTCValue()| number:'1.2-4' }} / ${{totalFiatValue()| number:'1.2-3' }}</span>
+            <span>
+                24h change
+                <span style="margin-left: 5px" [style.color]="protfolioPrecentChange(i) 	&lt; 0 ? 'red' : 'green'">
+                    %{{protfolioPrecentChange()| number:'.2-2' }}
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <mat-checkbox [(ngModel)]="hideSmallBalances" (change)="applyFilter()">Hide small balances</mat-checkbox>
+    <div class="cb-rect-content">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="balance" matSortDirection="asc" matSortDisableClear
+        class="cb-table mat-elevation-z8">
+            <!-- Coin Column -->
+
+            <ng-container matColumnDef="coin">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Coin </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="balance">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Balance </th>
+                <td mat-cell *matCellDef="let element"> {{1 * element.balance | number:'1.2-8' | slice:0:9 }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="available">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Available </th>
+                    <td mat-cell *matCellDef="let element"> {{1 * element.available | number:'1.2-8' | slice:0:9 }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="precent">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Precent </th>
+                <td mat-cell *matCellDef="let element"> %{{ precentOfProtfolio(element) | number:'.2-2' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="24h">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> 24h </th>
+                <td mat-cell *matCellDef="let element"> 
+                        <span [style.color]="element.perc24Change 	&lt; 0 ? 'red' : 'green'">%{{element.perc24Change | number:'.2-2' }}</span>    
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="btcvalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> BTC Value </th>
+                <td mat-cell *matCellDef="let element"> ฿ {{element.btcValue * element.balance | number:'1.2-8'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="usdvalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> USD Value </th>
+                <td mat-cell *matCellDef="let element">{{element.fiatValue * element.balance | currency:'USD':'symbol' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="btcrate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> BTC Rate </th>
+                <td mat-cell *matCellDef="let element"> ฿ {{element.btcValue| number:'1.2-8'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="usdrate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> USD-Rate </th>
+                <td mat-cell *matCellDef="let element">{{element.fiatValue | currency:'USD':'symbol' }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="cb-mat-header-row"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="cb-mat-row"></tr>
+        </table>
+
+    </div>
+</div>
+
+
+<ng-template #noAccount>
+    <div class="cb-warn-message">Please enter {{exchange}} API Keys</div>
+</ng-template>

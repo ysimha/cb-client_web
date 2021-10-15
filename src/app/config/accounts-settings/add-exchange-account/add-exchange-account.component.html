@@ -1,0 +1,48 @@
+<div class="cb-rect-title">
+  New Exchange Details
+</div>
+<div class="cb-rect-content">
+
+  <div style="  margin: 0 auto 20px;width: auto; max-width: 650px;">
+
+    <form (ngSubmit)="addExchange()" [formGroup]="form">
+
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+
+      <mat-form-field>
+        <mat-select placeholder="Select Exchange" [formControl]="exchangeFormControl" [errorStateMatcher]="matcher">
+          <mat-option *ngFor="let exchange of exchanges" [value]="exchange">
+            {{exchange.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="exchangeFormControl.hasError('required')">
+          Exchange is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="width: 450px;">
+        <input matInput placeholder="Public key" [formControl]="keyFormControl" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="exchangeFormControl.hasError('required')">
+          Public key is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="width: 450px;">
+        <input matInput placeholder="Secret key" [formControl]="secretFormControl" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="exchangeFormControl.hasError('required')">
+          Secret key is required
+        </mat-error>
+      </mat-form-field>
+
+
+      <span>
+        <button class="cb-button" [disabled]="form.invalid || !form.dirty">Save</button>
+        <button class="cb-button" type='button' (click)="onCancelClick()">Cancel</button>
+      </span>
+      <!-- <button mat-raised-button color="primary" [disabled]=form.invalid>Save</button> -->
+      <!-- <button mat-raised-button color="primary" type="button" (click)="onCancelClick()"></button> -->
+
+    </form>
+
+  </div>
+</div>

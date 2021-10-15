@@ -1,0 +1,55 @@
+
+      <div class="cb-rect-title">
+        Bot Activation
+      </div>
+      <div class="cb-rect-content">
+        <!-- <div style="background-color: rgb(75, 115, 150)"> -->
+        <form (ngSubmit)="activate()" [formGroup]="activationForm">
+
+          <div class="cb-warn-message" *ngIf="errorMessage">{{errorMessage}}</div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <input matInput placeholder="Bot Name" autocomplete="off" [formControl]="botNameFormControl" [errorStateMatcher]="matcher">
+              <mat-error *ngIf="botNameFormControl.hasError('required')">
+                Bot Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+         <div class="form-group" *ngIf="botConfigsObservable | async as botConfigs else empty">
+          <mat-form-field>
+              <mat-select required placeholder="Bot config" [formControl]="botConfigIdFormControl" >
+                  <mat-option [value]="config.id" *ngFor='let config of botConfigs'>{{config.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="botConfigIdFormControl.hasError('required')">
+                  Bot config is required
+              </mat-error>
+          </mat-form-field>
+          </div>
+
+          <div class="form-group" *ngIf="exchagesObservable | async as exchanges else empty">
+              <mat-form-field>
+                  <mat-select placeholder="Exchange" required [formControl]="exchageFormControl" >
+                    <mat-option [value]="exchange.exchange" *ngFor='let exchange of exchanges'>{{exchange.exchange}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="exchageFormControl.hasError('required')">
+                      Exchange is required
+                  </mat-error>
+              </mat-form-field>
+          </div> 
+
+          <div class="form-group">
+            <mat-slide-toggle [formControl]="loopFormControl"></mat-slide-toggle>
+            <span class="cb-label">Loop</span>
+          </div>
+
+          <button mat-raised-button color="primary" [disabled]="activationForm.invalid || !activationForm.dirty">Activate</button>
+        </form>
+      </div>
+      <!--end here-->
+    <!-- </div>
+  </div>
+</div> -->
+
+

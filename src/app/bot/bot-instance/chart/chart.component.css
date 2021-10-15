@@ -1,0 +1,11 @@
+#tick span {
+    font-size:14px; 
+    /* font-style: italic;  */
+    margin-right:20px; 
+    padding-left:10px; 
+}
+
+#intervals button{
+    width: 32px;
+    height: 32px;
+}

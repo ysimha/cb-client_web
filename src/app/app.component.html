@@ -1,0 +1,66 @@
+<main class="cb-main">
+  <nav class="navbar navbar-inverse cb-nav" role="navigation">
+    <div class="container-fluid">
+
+      <div class="navbar-header">
+        <span class="navbar-brand" style="color: rgb(77, 117, 228);font-weight: 600; font-size: 28px" [routerLink]="['/home']">fluxDroid</span>
+      </div>
+
+      <!-- <div class="nav navbar-nav">
+          <span id="login-user" style="padding-right: 100px">{{authUser}}</span>
+      </div> -->
+      
+      <div class="nav navbar-nav navbar-right">
+
+        <button mat-icon-button routerLink="history" [disabled]=!authenticated>
+          <mat-icon aria-label="history">score</mat-icon>
+        </button>
+
+        <button mat-icon-button routerLink="chart" [disabled]=!authenticated>
+            <!-- bot chart -->
+            <mat-icon aria-label="chart">timeline</mat-icon>
+          </button>
+
+          <button mat-icon-button routerLink="gauge" [disabled]=!authenticated>
+            <!-- bot gauge -->
+            <mat-icon aria-label="gauge">insert_chart</mat-icon>
+          </button>
+
+          <button mat-icon-button routerLink="dashboard" [disabled]=!authenticated>
+            <!-- bot dashboard -->
+            <mat-icon aria-label="Dashboard">dashboard</mat-icon>
+          </button>
+          <button mat-icon-button routerLink="activate" [disabled]=!authenticated>
+            <!-- bot config -->
+            <mat-icon aria-label="Activate">power_settings_new</mat-icon>
+          </button>
+
+          <button mat-icon-button routerLink="exchanges" [disabled]=!authenticated>
+            <!-- exchanges -->
+            <mat-icon aria-label="Configuration">swap_horiz</mat-icon>
+          </button>
+
+          <button mat-icon-button routerLink="config" [disabled]=!authenticated>
+            <!-- bot config -->
+            <mat-icon aria-label="Configuration">build</mat-icon>
+          </button>
+          <button mat-icon-button routerLink="accounts" [disabled]=!authenticated>
+            <!-- Settings -->
+            <mat-icon aria-label="Settings">settings</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="!authenticated" routerLink="login">
+            <!-- Login -->
+            <mat-icon style="color:red" aria-label="Login">account_circle</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="authenticated" (click)="logout()">
+            <!-- Logout -->
+            <mat-icon aria-label="Logout">exit_to_app</mat-icon>
+          </button>
+
+      </div>
+    </div>
+  </nav>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</main>

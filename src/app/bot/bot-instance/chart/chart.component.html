@@ -1,0 +1,26 @@
+<p style="color:aqua">
+  chart works!
+</p>
+<div class="cb-warn-message" *ngIf="componentMessage">{{componentMessage}}</div>
+
+<div class="container">
+  <div id="tick">
+    <span>{{symbol}} trading on {{exchange}}</span>
+    <span></span>
+    <span>LAST</span>
+    <span [style.color]="lastColor">{{lastTicker.last}}</span>
+    <span>BID</span>
+    <span [style.color]="bidColor">{{lastTicker.bid}}</span>
+    <span>ASK</span>
+    <span [style.color]="askColor">{{lastTicker.ask}}</span>
+  </div>
+</div>
+<div id="intervals" class="container">
+  <button class="cb-button" (click)="setInterval('1m')">1m</button>
+  <button class="cb-button" (click)="setInterval('5m')">5m</button>
+  <button class="cb-button" (click)="setInterval('30m')">30m</button>
+  <button class="cb-button" (click)="setInterval('1h')">1h</button>
+</div>
+<div class="container">
+  <chart type="StockChart" [options]="options" (load)="saveInstance($event.context)"></chart>
+</div>

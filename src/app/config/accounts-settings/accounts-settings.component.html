@@ -1,0 +1,70 @@
+<!-- <div class="container">
+    <div class="row">
+      <div class="col">
+        <section>
+          <header class="header">
+            <div class="row">
+              <div>
+                <h3>
+                  <span class="label label-default">Account Settings</span>
+                </h3>
+              </div>
+            </div>
+          </header>
+        </section>
+  
+        <section class="main"> -->
+
+            <div class="cb-rect-title">
+                Account Settings
+            </div>
+           <div class="cb-rect-content">
+            <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Exchanges Acoounts
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="userProfile.exchangeAccounts">
+                      {{userProfile.exchangeAccounts.length}} API Accounts   
+                    </mat-panel-description>
+                    <mat-panel-description *ngIf="!userProfile.exchangeAccounts">
+                      No Exchanges
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+  
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Public Key</th>
+                        <th></th>
+                        <th>
+                            <button mat-raised-button (click)="openExchangeDialog()">New
+                              <mat-icon aria-label="Add">add_circle</mat-icon>
+                            </button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let exchange of userProfile.exchangeAccounts">
+                        <td>{{exchange.exchange}}</td>
+                        <td>{{exchange.publicKey}}</td>
+                        <td></td>
+                        <td>
+                            <button mat-raised-button (click)="deleteExchange(exchange)">Delete
+                                <mat-icon class="material-icons md-18" aria-label="Delete">delete_forever</mat-icon>
+                            </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+  
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+
+        <!-- </section>
+      </div>
+    </div>
+  </div> -->

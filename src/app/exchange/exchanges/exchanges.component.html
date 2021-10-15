@@ -1,0 +1,16 @@
+<div class="row" style="width: 100%">
+  <div class="col-lg-12">
+    <mat-tab-group>
+
+      <mat-tab *ngFor="let exchange of userProfile.exchangeAccounts" [label]="exchange.exchange">
+        <app-exchange-summary [exchange]="exchange.exchange"></app-exchange-summary>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-lg-12">
+    panel c
+  </div>
+</div> -->

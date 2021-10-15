@@ -1,0 +1,96 @@
+<!-- ['createdDate','symbol', 'totalAmountBought','avePriceBought', 'avePriceSold', 'timeStart' ,'timeEnd'] -->
+HI
+<div *ngIf="historyRecords; else noHistory">
+  <div id="totals" class="cb-rect-title">
+    <div>
+      <span style="align-content: flex-end">Estimated Profit</span>
+      <span style="margin-left: 2px" [style.color]="totalProfit()	&lt; 0 ? 'red' : 'green'">
+          &#3647; {{totalProfit()| number:'1.2-8' | slice:0:9 }}
+      </span>
+
+      <span style="align-content: flex-end">Total Precent</span>
+      <span style="margin-left: 2px" [style.color]="totalPercent()	&lt; 0 ? 'red' : 'green'">
+          % {{totalPercent()| number:'.2-2' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="cb-rect-content">
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="createdDate" matSortDirection="asc" matSortDisableClear
+      class="cb-table mat-elevation-z8">
+      <!-- Coin Column -->
+
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Record date </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdDate | date:'yyyy-MM-dd HH:mm:ss' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="profit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Profit </th>
+          <td mat-cell *matCellDef="let element"> 
+              <span  [style.color]="element.totalAmountSold-element.totalAmountBought 	&lt; 0 ? 'red' : 'green'">
+                {{ element.totalAmountSold-element.totalAmountBought | number:'1.2-8' | slice:0:9 }}
+              </span>    
+          </td>
+      </ng-container>
+
+      <ng-container matColumnDef="percent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Percent </th>
+          <td mat-cell *matCellDef="let element"> 
+              <span  [style.color]="calcPercent(element) 	&lt; 0 ? 'red' : 'green'">
+                {{ calcPercent(element) | number:'.2-2' }}
+              </span>    
+          </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalAmountBought">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total bought </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalAmountBought | number:'1.2-8' | slice:0:9 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalAmountSold">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total sold </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalAmountSold | number:'1.2-8' | slice:0:9 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="avePriceBought">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ave price </th>
+        <td mat-cell *matCellDef="let element"> {{1 * element.avePriceBought | number:'1.2-8' | slice:0:9 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="avePriceSold">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ave sold </th>
+        <td mat-cell *matCellDef="let element"> {{1 * element.avePriceSold | number:'1.2-8' | slice:0:9 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="timeStart">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start time </th>
+        <td mat-cell *matCellDef="let element"> {{element.timeStart | date:'yyyy-MM-dd HH:mm:ss'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="timeEnd">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> End time </th>
+        <td mat-cell *matCellDef="let element"> {{element.timeEnd | date:'yyyy-MM-dd HH:mm:ss'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Source </th>
+        <td mat-cell *matCellDef="let element"> {{element.source}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="cb-mat-header-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="cb-mat-row"></tr>
+    </table>
+
+  </div>
+</div>
+
+
+<ng-template #noHistory>
+  <div class="cb-warn-message">No trade history records found</div>
+</ng-template>

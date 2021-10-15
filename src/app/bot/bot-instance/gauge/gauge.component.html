@@ -1,0 +1,31 @@
+
+<div>
+    <mat-accordion hideToggle="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="24px" expandedHeight="24px">
+          This is the expansion 1 title
+        </mat-expansion-panel-header>
+        <div class="cb-rect-content">
+
+          This the expansion 1 content
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="24px" expandedHeight="24px">
+              This is the expansion 2 title
+        </mat-expansion-panel-header>
+
+        <div class="cb-rect-content">
+          This the expansion 1 content
+        </div>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </div>
+
+
+<div class="cb-warn-message" *ngIf="componentMessage">{{componentMessage}}</div>
+<chart [options]="options" (load)="saveInstance($event.context)" ></chart>
+
