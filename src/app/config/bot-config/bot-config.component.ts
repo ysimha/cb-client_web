@@ -23,7 +23,7 @@ export class BotConfigComponent implements OnInit {
 
   nameFormControl = new FormControl('', [Validators.required]);
   stoplossFormControl = new FormControl('', [validator.amountlValidator(1, 100)]);
-  defaultAmountlFormControl = new FormControl('', [validator.amountlValidator(0.0005, 1)]);
+  defaultAmountlFormControl = new FormControl('', [validator.amountlValidator(85, 50000)]);
   costAverageFormControl = new FormControl(false);
   useSignalSLFormControl = new FormControl(false);
   useSignalTargetsFormControl = new FormControl(false);

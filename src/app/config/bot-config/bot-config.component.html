@@ -17,10 +17,10 @@
 
         <div class="form-group">
             <mat-form-field>
-                <input matInput placeholder="Default Amount" type="number" step="0.0001"
+                <input matInput placeholder="Default Amount" type="number" step="1"
                     [formControl]="defaultAmountlFormControl" [errorStateMatcher]="matcher">
                 <mat-error *ngIf="defaultAmountlFormControl.hasError('amountlValidator')">
-                    Default BTC amount must be a number 0.0005 to 1.00
+                    USDT amount must be a number 85 to 5000
                 </mat-error>
             </mat-form-field>
         </div>
