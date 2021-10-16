@@ -43,12 +43,9 @@ export class ExchangeSummaryComponent implements OnInit {
           this.exchangesSummaryService.getBalances(this.exchangeAccount.exchange)
             .subscribe(
               data => {
-                console.warn(data);
+
                 this.balances = data;
-                // this.setDataSource();
-
                 this.dataSource = new MatTableDataSource(this.balances)
-
                 this.dataSource.filterPredicate =
                   (data: ExchangeBalance, value: string) => data.balance * data.fiatValue > +value;
                 this.applyFilter();

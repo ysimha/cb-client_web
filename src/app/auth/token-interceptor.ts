@@ -28,13 +28,13 @@ export class TokenInterceptor implements HttpInterceptor {
 
     // set X-Requested-With = XMLHttpRequest
     req.headers.set('X-Requested-With', 'XMLHttpRequest');
-    console.log(req);
-    console.log("==============================================")
+    // console.log(req);
+    // console.log("==============================================")
     // set X-AUTH-TOKEN
-    if (this.token.get() ){
-      console.log('set token in header ::' + this.token.get());
-      const authReq = req.clone({headers:  req.headers.set(TOKEN_HEADER_KEY, this.token.get())});
-      console.log(authReq.headers);
+    if (this.token.get()) {
+      // console.log('set token in header ::' + this.token.get());
+      const authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, this.token.get()) });
+      // console.log(authReq.headers);
       return next.handle(authReq);
     }
     return next.handle(req);

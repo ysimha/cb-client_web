@@ -1,23 +1,22 @@
 <!-- ['createdDate','symbol', 'totalAmountBought','avePriceBought', 'avePriceSold', 'timeStart' ,'timeEnd'] -->
-HI
 <div *ngIf="historyRecords; else noHistory">
   <div id="totals" class="cb-rect-title">
     <div>
       <span style="align-content: flex-end">Estimated Profit</span>
       <span style="margin-left: 2px" [style.color]="totalProfit()	&lt; 0 ? 'red' : 'green'">
-          &#3647; {{totalProfit()| number:'1.2-8' | slice:0:9 }}
+        $ {{totalProfit()| number:'1.2-8' | slice:0:9 }}
       </span>
 
       <span style="align-content: flex-end">Total Precent</span>
       <span style="margin-left: 2px" [style.color]="totalPercent()	&lt; 0 ? 'red' : 'green'">
-          % {{totalPercent()| number:'.2-2' }}
+        % {{totalPercent()| number:'.2-2' }}
       </span>
     </div>
   </div>
 
   <div class="cb-rect-content">
-    <table mat-table [dataSource]="dataSource" matSort matSortActive="createdDate" matSortDirection="asc" matSortDisableClear
-      class="cb-table mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="createdDate" matSortDirection="asc"
+      matSortDisableClear class="cb-table mat-elevation-z8">
       <!-- Coin Column -->
 
       <ng-container matColumnDef="createdDate">
@@ -31,21 +30,21 @@ HI
       </ng-container>
 
       <ng-container matColumnDef="profit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Profit </th>
-          <td mat-cell *matCellDef="let element"> 
-              <span  [style.color]="element.totalAmountSold-element.totalAmountBought 	&lt; 0 ? 'red' : 'green'">
-                {{ element.totalAmountSold-element.totalAmountBought | number:'1.2-8' | slice:0:9 }}
-              </span>    
-          </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Profit </th>
+        <td mat-cell *matCellDef="let element">
+          <span [style.color]="element.totalAmountSold-element.totalAmountBought 	&lt; 0 ? 'red' : 'green'">
+            {{ element.totalAmountSold-element.totalAmountBought | number:'1.2-8' | slice:0:9 }}
+          </span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="percent">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Percent </th>
-          <td mat-cell *matCellDef="let element"> 
-              <span  [style.color]="calcPercent(element) 	&lt; 0 ? 'red' : 'green'">
-                {{ calcPercent(element) | number:'.2-2' }}
-              </span>    
-          </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Percent </th>
+        <td mat-cell *matCellDef="let element">
+          <span [style.color]="calcPercent(element) 	&lt; 0 ? 'red' : 'green'">
+            {{ calcPercent(element) | number:'.2-2' }}
+          </span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="totalAmountBought">

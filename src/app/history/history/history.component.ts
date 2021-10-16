@@ -1,5 +1,5 @@
-import { Component, OnInit, Input , ViewChild} from '@angular/core';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatSort, MatTableDataSource } from '@angular/material';
 import { HistoryService } from '../history.service';
 import { TradingSessionRecord } from '../history';
 
@@ -10,45 +10,59 @@ import { TradingSessionRecord } from '../history';
 })
 export class HistoryComponent implements OnInit {
 
-  historyRecords:TradingSessionRecord[];
+  historyRecords: TradingSessionRecord[] = [];
 
-  displayedColumns: string[] = ['createdDate','symbol', 'profit', 'percent' ,
-     'totalAmountBought', 'totalAmountSold','avePriceBought', 'avePriceSold', 'timeStart' ,'timeEnd','source'];
+  displayedColumns: string[] = ['createdDate', 'symbol', 'profit', 'percent',
+    'totalAmountBought', 'totalAmountSold', 'avePriceBought',
+    'avePriceSold', 'timeStart', 'timeEnd', 'source'];
 
   dataSource = new MatTableDataSource(this.historyRecords);
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private historyService:HistoryService) { }
+  constructor(private historyService: HistoryService) { }
 
   ngOnInit() {
     this.historyService.getHistory().subscribe(
-      history=>{
-        this.historyRecords = history;                
+
+      history => {
+        console.warn(history)
+        if (Array.isArray(history)) {
+          this.historyRecords = history;
+        } else {
+          this.historyRecords = []
+          this.historyRecords.push(history)
+        }
         this.dataSource = new MatTableDataSource(this.historyRecords);
         this.dataSource.sort = this.sort;
+      },
+      error => {
+        console.error(error);
+      },
+      () => {
+        console.info('complete')
       }
     );
   }
-  totalProfit(){
-    return this.historyRecords.reduce((a,b)=>a+(b.totalAmountSold-b.totalAmountBought),0);
+  totalProfit() {
+    return this.historyRecords.reduce((a, b) => a + (b.totalAmountSold - b.totalAmountBought), 0);
   }
 
-  totalPercent(){
-    return ((this.totalAmountSold() / this.totalAmountBought()) * 100 )-100;
+  totalPercent() {
+    return ((this.totalAmountSold() / this.totalAmountBought()) * 100) - 100;
   }
 
-  totalAmountBought(){
-    return this.historyRecords.reduce((a,b)=>a+b.totalAmountBought,0);
+  totalAmountBought() {
+    return this.historyRecords.reduce((a, b) => a + b.totalAmountBought, 0);
   }
 
-  totalAmountSold(){
-    return this.historyRecords.reduce((a,b)=>a+b.totalAmountSold,0);
+  totalAmountSold() {
+    return this.historyRecords.reduce((a, b) => a + b.totalAmountSold, 0);
   }
 
 
-  calcPercent(historyRecord:TradingSessionRecord ):number{
-    return ((historyRecord.totalAmountSold / historyRecord.totalAmountBought) * 100 )-100;
+  calcPercent(historyRecord: TradingSessionRecord): number {
+    return ((historyRecord.totalAmountSold / historyRecord.totalAmountBought) * 100) - 100;
   }
 
   // calcProfit(element:TradingSessionRecord){
